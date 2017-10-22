@@ -1,68 +1,67 @@
-var React = require('react');
-var PropTypes = React.PropTypes;
-var utils = require('../helpers/utils');
-var getDate = utils.getDate;
-var DayItem = require('./DayItem');
+import React from 'react';
+import PropTypes from 'prop-types';
+import DayItem from './DayItem';
 
-var styles = {
-  container: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    maxWidth: 1200,
-    margin: '50px auto'
-  },
-  subheader: {
-    fontSize: 30,
-    color: '#333',
-    fontWeight: 100
-  },
-  header: {
-    fontSize: 65,
-    color: '#333',
-    fontWeight: 100,
-    textAlign: 'center',
-    marginTop: 50,
-    marginBottom: 30,
-  }
+const styles = {
+	container: {
+		display: 'flex',
+		justifyContent: 'space-between',
+		alignItems: 'center',
+		flexDirection: 'row',
+		flexWrap: 'wrap',
+		maxWidth: 1200,
+		margin: '50px auto'
+	},
+	subheader: {
+		fontSize: 30,
+		color: '#333',
+		fontWeight: 100
+	},
+	header: {
+		fontSize: 65,
+		color: '#333',
+		fontWeight: 100,
+		textAlign: 'center',
+		marginTop: 50,
+		marginBottom: 30,
+	}
+};
+
+function ForecastUI( {city, handleClick, forecast} ) {
+	const {header, subheader, container} = styles;
+
+	return (
+		<div style={{textAlign: 'center'}}>
+			<h1 style={header}>{city}</h1>
+			<p style={subheader}>Select a day</p>
+			<div style={container}>
+				{forecast.list.map((listItem) =>
+					<DayItem key={listItem.dt} day={listItem} handleClick={handleClick.bind(null, listItem)}/>
+				)}
+			</div>
+		</div>
+	)
 }
 
-function ForecastUI (props) {
-  return (
-    <div style={{textAlign: 'center'}}>
-      <h1 style={styles.header}>{props.city}</h1>
-      <p style={styles.subheader}>Select a day</p>
-      <div style={styles.container}>
-        {props.forecast.list.map(function (listItem) {
-          return <DayItem key={listItem.dt} day={listItem} handleClick={props.handleClick.bind(null, listItem)} />
-        })}
-      </div>
-    </div>
-  )
-}
-
-function Forecast (props) {
-  return (
-    <div>
-      {
-        props.isLoading === true
-          ? <h1 style={styles.header}> Loading </h1>
-          : <ForecastUI
-              city={props.city}
-              forecast={props.forecastData}
-              handleClick={props.handleClick} />
-      }
-    </div>
-  )
+export default function Forecast({isLoading, city, forecastData, handleClick}) {
+	const {header} = styles;
+	return (
+		<div>
+			{
+				isLoading === true
+					? <h1 style={header}> Loading </h1>
+					: <ForecastUI
+						city={city}
+						forecast={forecastData}
+						handleClick={handleClick}/>
+			}
+		</div>
+	)
 }
 
 Forecast.propTypes = {
-  city: PropTypes.string.isRequired,
-  forecastData: PropTypes.object.isRequired,
-  handleClick: PropTypes.func.isRequired,
-  isLoading: PropTypes.bool.isRequired
-}
-
-module.exports = Forecast;
+	city: PropTypes.string.isRequired,
+	forecastData: PropTypes.object.isRequired,
+	handleClick: PropTypes.func.isRequired,
+	isLoading: PropTypes.bool.isRequired
+};

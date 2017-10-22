@@ -1,32 +1,32 @@
-var React = require('react');
-var PropTypes = React.PropTypes;
+import React from 'react';
+import PropTypes from 'prop-types';
 
-function Button (props) {
+function Button ({onSubmitCity, children}) {
   return (
     <button type='button'
       style={{margin: 10}}
       className='btn btn-success'
-      onClick={props.onSubmitCity}>
-        {props.children}
+      onClick={onSubmitCity}>
+        {children}
     </button>
   )
 }
 
-function InputField (props) {
+function InputField ({onUpdateCity, city}) {
   return (
     <input
       className='form-control'
-      onChange={props.onUpdateCity}
+      onChange={onUpdateCity}
       placeholder='St. George, Utah'
       type='text'
-      value={props.city} />
+      value={city} />
   )
 }
 
-function getStyles (props) {
+function getStyles ({direction}) {
   return {
     display: 'flex',
-    flexDirection: props.direction || 'column',
+    flexDirection: direction || 'column',
     justifyContent: 'center',
     alignItems: 'center',
     maxWidth: 300,
@@ -34,14 +34,16 @@ function getStyles (props) {
   }
 }
 
-function GetCity (props) {
+export default function GetCity (props) {
+	const {onUpdateCity, onSubmitCity, city} = props;
+
   return (
     <div style={getStyles(props)}>
       <InputField
-        onUpdateCity={props.onUpdateCity}
-        city={props.city} />
+        onUpdateCity={onUpdateCity}
+        city={city} />
       <Button
-        onSubmitCity={props.onSubmitCity}>
+        onSubmitCity={onSubmitCity}>
           Get Weather
       </Button>
     </div>
@@ -53,6 +55,4 @@ GetCity.propTypes = {
   onSubmitCity: PropTypes.func.isRequired,
   onUpdateCity: PropTypes.func.isRequired,
   city: PropTypes.string.isRequired
-}
-
-module.exports = GetCity;
+};

@@ -1,22 +1,21 @@
-var React = require('react');
-var ReactRouter = require('react-router');
-var Router = ReactRouter.Router;
-var Route = ReactRouter.Route;
-var hashHistory = ReactRouter.hashHistory;
-var IndexRoute = ReactRouter.IndexRoute;
-var Main = require('../containers/Main');
-var HomeContainer = require('../containers/HomeContainer');
-var ForecastContainer = require('../containers/ForecastContainer');
-var DetailContainer = require('../containers/DetailContainer');
+import React from 'react';
+import {Route, HashRouter, Switch} from 'react-router-dom';
+import Main from '../containers/Main';
+import HomeContainer from '../containers/HomeContainer';
+import ForecastContainer from '../containers/ForecastContainer';
+import DetailContainer from '../containers/DetailContainer';
 
-var routes = (
-  <Router history={hashHistory}>
-    <Route path='/' component={Main}>
-      <IndexRoute component={HomeContainer} />
-      <Route path='forecast/:city' component={ForecastContainer} />
-      <Route path='detail/:city' component={DetailContainer} />
-    </Route>
-  </Router>
+const routes = (
+	<HashRouter>
+		<div>
+			<Main/>
+			<Switch>
+				<Route exact path='/' component={HomeContainer}/>
+				<Route path='/forecast/:city' component={ForecastContainer}/>
+				<Route path='/detail/:city' component={DetailContainer}/>
+			</Switch>
+		</div>
+	</HashRouter>
 );
 
-module.exports = routes;
+export default routes
